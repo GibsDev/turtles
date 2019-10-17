@@ -19,10 +19,10 @@ for file, url in files do
 	end
 end
 -- Remove shortcuts created by alias
-if fs.exists(program_alias)
+if fs.exists(program_alias) then
 	fs.delete(program_alias)
 end
-if fs.exists(update_alias)
+if fs.exists(update_alias) then
 	fs.delete(update_alias)
 end
 
