@@ -13,7 +13,7 @@ local update_alias = "update-miner.lua"
 
 print("Removing old files...")
 -- Remove src files
-for file, url in files do
+for file, url in pairs(files) do
 	if fs.exists(file) then
 		fs.delete(file)
 	end
@@ -41,7 +41,7 @@ if not fs.exists(miner_folder) then
 	fs.makedir(miner_folder)
 end
 print("Downloading files...")
-for file, url in files do
+for file, url in pairs(files) do
 	shell.run("wget", url, file)
 end
 
