@@ -32,13 +32,13 @@ local api_folder = root_folder .. "/api"
 local miner_folder = root_folder .. "/miner"
 
 if not fs.exists(root_folder) then
-	fs.mkdir(root_folder)
+	fs.makeDir(root_folder)
 end
 if not fs.exists(api_folder) then
-	fs.mkdir(api_folder)
+	fs.makeDir(api_folder)
 end
 if not fs.exists(miner_folder) then
-	fs.mkdir(miner_folder)
+	fs.makeDir(miner_folder)
 end
 print("Downloading files...")
 for file, url in pairs(files) do
