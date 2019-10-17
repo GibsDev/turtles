@@ -1,0 +1,4 @@
+make width argument do something - miner.lua
+add ability to add to ender chest
+add functinality for player path argument
+add help function
