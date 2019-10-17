@@ -1,19 +1,49 @@
 -- A program used to install miner program with dependancies
-print("Removing old files")
-fs.delete("/minerdeps")
-fs.delete("miner")
-fs.delete("update")
+local program = "/gibsdev/miner/miner.lua"
+local updater = "/gibsdev/miner/installer.lua"
+local files = {}
+files[program] = "https://raw.githubusercontent.com/GibsDev/turtles/master/miner/miner.lua"
+files[updater] = "https://raw.githubusercontent.com/GibsDev/turtles/master/miner/installer.lua"
+files["/gibsdev/api/arguments.lua"] = "https://raw.githubusercontent.com/GibsDev/turtles/master/api/arguments.lua"
+files["/gibsdev/api/coords.lua"] = "https://raw.githubusercontent.com/GibsDev/turtles/master/api/coords.lua"
+files["/gibsdev/api/utils.lua"] = "https://raw.githubusercontent.com/GibsDev/turtles/master/api/utils.lua"
 
-print("Downloading fresh code")
-fs.makeDir("/minerdeps")
-shell.run("wget", "https://raw.githubusercontent.com/GibsDev/mining-turtle/master/arguments.lua", "arguments.lua")
-shell.run("wget", "https://raw.githubusercontent.com/GibsDev/mining-turtle/master/coords.lua", "coords.lua")
-shell.run("wget", "https://raw.githubusercontent.com/GibsDev/mining-turtle/master/miner.lua", "miner")
-shell.run("wget", "https://raw.githubusercontent.com/GibsDev/mining-turtle/master/utils.lua", "utils.lua")
-shell.run("wget", "https://raw.githubusercontent.com/GibsDev/mining-turtle/master/vector.lua", "vector.lua")
-shell.run("wget", "https://raw.githubusercontent.com/GibsDev/mining-turtle/master/installer.lua", "update")
+local program_alias = "miner.lua"
+local update_alias = "update-miner.lua"
 
-print("Moving deps into /minerdeps")
-fs.move("/coords.lua", "/minerdeps/coords.lua")
-fs.move("/utils.lua", "/minerdeps/utils.lua")
-fs.move("/arguments.lua", "/minerdeps/arguments.lua")
+print("Removing old files...")
+-- Remove src files
+for file, url in files do
+	if fs.exists(file) then
+		fs.delete(file)
+	end
+end
+-- Remove shortcuts created by alias
+if fs.exists(program_alias)
+	fs.delete(program_alias)
+end
+if fs.exists(update_alias)
+	fs.delete(update_alias)
+end
+
+print("Creating directories...")
+local root_folder = "/gibsdev"
+local api_folder = root_folder .. "/api"
+local miner_folder = root_folder .. "/miner"
+
+if not fs.exists(root_folder) then
+	fs.makedir(root_folder)
+end
+if not fs.exists(api_folder) then
+	fs.makedir(api_folder)
+end
+if not fs.exists(miner_folder) then
+	fs.makedir(miner_folder)
+end
+print("Downloading files...")
+for file, url in files do
+	shell.run("wget", url, file)
+end
+
+shell.run("alias", program_alias, program)
+shell.run("alias", update_alias, updater)
